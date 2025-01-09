@@ -2,7 +2,7 @@
 import sys
 import warnings
 
-from ai_latest_development.crew import AiLatestDevelopment
+from crew import AiLatestDevelopment
 
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
@@ -56,3 +56,6 @@ def test():
 
     except Exception as e:
         raise Exception(f"An error occurred while replaying the crew: {e}")
+    
+
+run()

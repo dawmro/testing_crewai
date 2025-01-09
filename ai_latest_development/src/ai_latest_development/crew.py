@@ -1,5 +1,13 @@
-from crewai import Agent, Crew, Process, Task
+from crewai import Agent, Crew, Process, Task, LLM
 from crewai.project import CrewBase, agent, crew, task
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+#MODEL=os.getenv('MODEL')
+#API_BASE=os.getenv('API_BASE')
+
 
 # If you want to run a snippet of code before or after the crew starts, 
 # you can use the @before_kickoff and @after_kickoff decorators
@@ -15,20 +23,22 @@ class AiLatestDevelopment():
 	agents_config = 'config/agents.yaml'
 	tasks_config = 'config/tasks.yaml'
 
+
+
 	# If you would like to add tools to your agents, you can learn more about it here:
 	# https://docs.crewai.com/concepts/agents#agent-tools
 	@agent
 	def researcher(self) -> Agent:
 		return Agent(
 			config=self.agents_config['researcher'],
-			verbose=True
+			verbose=True,
 		)
 
 	@agent
 	def reporting_analyst(self) -> Agent:
 		return Agent(
 			config=self.agents_config['reporting_analyst'],
-			verbose=True
+			verbose=True,
 		)
 
 	# To learn more about structured task outputs, 
