@@ -1,20 +1,17 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
+from crewai_tools import SerperDevTool, ScrapeWebsiteTool, FileWriterTool
 from dotenv import load_dotenv
 
 load_dotenv()
-
-#MODEL=os.getenv('MODEL')
-#API_BASE=os.getenv('API_BASE')
-
 
 # If you want to run a snippet of code before or after the crew starts, 
 # you can use the @before_kickoff and @after_kickoff decorators
 # https://docs.crewai.com/concepts/crews#example-crew-class-with-decorators
 
 @CrewBase
-class AiLatestDevelopment():
-	"""AiLatestDevelopment crew"""
+class AiNews():
+	"""AiNews crew"""
 
 	# Learn more about YAML configuration files here:
 	# Agents: https://docs.crewai.com/concepts/agents#yaml-configuration-recommended
@@ -22,43 +19,72 @@ class AiLatestDevelopment():
 	agents_config = 'config/agents.yaml'
 	tasks_config = 'config/tasks.yaml'
 
-
-
 	# If you would like to add tools to your agents, you can learn more about it here:
 	# https://docs.crewai.com/concepts/agents#agent-tools
 	@agent
-	def researcher(self) -> Agent:
+	def retrieve_news(self) -> Agent:
 		return Agent(
-			config=self.agents_config['researcher'],
-			verbose=True,
+			config=self.agents_config['retrieve_news'],
+			tools = [SerperDevTool()],
+			verbose=True
 		)
 
 	@agent
-	def reporting_analyst(self) -> Agent:
+	def website_scraper(self) -> Agent:
 		return Agent(
-			config=self.agents_config['reporting_analyst'],
-			verbose=True,
+			config=self.agents_config['website_scraper'],
+			tools = [ScrapeWebsiteTool()],
+			verbose=True
+		)
+	
+	@agent
+	def ai_news_writer(self) -> Agent:
+		return Agent(
+			config=self.agents_config['ai_news_writer'],
+			tools = [],
+			verbose=True
+		)
+
+	@agent
+	def file_writer(self) -> Agent:
+		return Agent(
+			config=self.agents_config['file_writer'],
+			tools = [FileWriterTool()],
+			verbose=True
 		)
 
 	# To learn more about structured task outputs, 
 	# task dependencies, and task callbacks, check out the documentation:
 	# https://docs.crewai.com/concepts/tasks#overview-of-a-task
 	@task
-	def research_task(self) -> Task:
+	def retrieve_news_task(self) -> Task:
 		return Task(
-			config=self.tasks_config['research_task'],
+			config=self.tasks_config['retrieve_news_task'],
 		)
 
 	@task
-	def reporting_task(self) -> Task:
+	def website_scrape_task(self) -> Task:
 		return Task(
-			config=self.tasks_config['reporting_task'],
-			output_file='report.md'
+			config=self.tasks_config['website_scrape_task'],
 		)
+	
+	@task
+	def ai_news_write_task(self) -> Task:
+		return Task(
+			config=self.tasks_config['ai_news_write_task'],
+		)
+	
+	@task
+	def file_write_task(self) -> Task:
+		return Task(
+			config=self.tasks_config['file_write_task'],
+			output_file='news_article.md'
+		)
+	
 
 	@crew
 	def crew(self) -> Crew:
-		"""Creates the AiLatestDevelopment crew"""
+		"""Creates the AiNews crew"""
 		# To learn how to add knowledge sources to your crew, check out the documentation:
 		# https://docs.crewai.com/concepts/knowledge#what-is-knowledge
 
