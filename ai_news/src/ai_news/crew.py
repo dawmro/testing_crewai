@@ -78,7 +78,6 @@ class AiNews():
 	def file_write_task(self) -> Task:
 		return Task(
 			config=self.tasks_config['file_write_task'],
-			output_file='news_article.md'
 		)
 	
 

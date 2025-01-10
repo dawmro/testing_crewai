@@ -16,11 +16,21 @@ def run():
     """
     Run the crew.
     """
-    inputs = {
-        'topic': 'Using Technical Analysis to predict future price of Bitcoin',
+    inputs_array = [
+        {
+        'topic': 'Bitcoin Mining costs',
         'date': datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-    }
-    AiNews().crew().kickoff(inputs=inputs)
+        },
+        {
+        'topic': 'Gold Mining costs',
+        'date': datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+        },
+        {
+        'topic': 'Coal Mining costs',
+        'date': datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+        }
+    ]
+    AiNews().crew().kickoff_for_each(inputs=inputs_array)
 
 
     
