@@ -1,0 +1,3 @@
+- Adjust investment strategy
+- Implement risk management protocols
+- Review and update financial models

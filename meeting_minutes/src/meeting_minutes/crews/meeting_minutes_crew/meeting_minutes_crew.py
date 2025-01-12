@@ -41,6 +41,13 @@ class MeetingMinutesCrew():
     # To learn more about structured task outputs,
     # task dependencies, and task callbacks, check out the documentation:
     # https://docs.crewai.com/concepts/tasks#overview-of-a-task
+
+    @task
+    def meeting_minutes_summary_task(self) -> Task:
+        return Task(
+            config=self.tasks_config['meeting_minutes_summary_task'],
+        )
+    
     @task
     def meeting_minutes_writing_task(self) -> Task:
         return Task(
