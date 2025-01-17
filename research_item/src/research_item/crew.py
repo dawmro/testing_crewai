@@ -1,9 +1,6 @@
-import os
-
-import agentops 
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
-from crewai_tools import SerperDevTool
+from crewai_tools import SerperDevTool, ScrapeWebsiteTool
 
 from tools.reddit_tavily_search import RedditTavilySearchTool
 from tools.tavily_search_tool import TavilySearchTool
@@ -23,56 +20,83 @@ class ResearchItem():
 	# Learn more about YAML configuration files here:
 	# Agents: https://docs.crewai.com/concepts/agents#yaml-configuration-recommended
 	# Tasks: https://docs.crewai.com/concepts/tasks#yaml-configuration-recommended
-	agentops.init(api_key=os.getenv("AGENTOPS_API_KEY"), skip_auto_end_session=True)
 	agents_config = 'config/agents.yaml'
 	tasks_config = 'config/tasks.yaml'
 
 	# If you would like to add tools to your agents, you can learn more about it here:
 	# https://docs.crewai.com/concepts/agents#agent-tools
+
 	@agent
-	def researcher(self) -> Agent:
+	def serper_comparison(self) -> Agent:
 		return Agent(
 			config=self.agents_config["researcher"],
-			tools=[
-				SerperDevTool(),
-				TavilySearchTool(),
-				RedditTavilySearchTool(),
-            ],
-			verbose=True,
+			tools=[SerperDevTool()]
+		)
+	
+	@agent
+	def website_scrape(self) -> Agent:
+		return Agent(
+			config=self.agents_config['researcher'],
+			tools = [ScrapeWebsiteTool()]
+		)
+	
+	@agent
+	def tavily_comparison(self) -> Agent:
+		return Agent(
+			config=self.agents_config["researcher"],
+			tools=[TavilySearchTool()]
+		)
+	
+	@agent
+	def reddit_search_comparison(self) -> Agent:
+		return Agent(
+			config=self.agents_config["researcher"],
+			tools=[RedditTavilySearchTool()]
 		)
 
 	@agent
 	def reporting_analyst(self) -> Agent:
 		return Agent(
 			config=self.agents_config['reporting_analyst'],
-			verbose=True
 		)
 
 	# To learn more about structured task outputs, 
 	# task dependencies, and task callbacks, check out the documentation:
 	# https://docs.crewai.com/concepts/tasks#overview-of-a-task
+
+	@task
 	def serper_comparison_task(self) -> Task:
 		return Task(
 			config=self.tasks_config["serper_comparison_task"],
+			output_file="steps/serper_comparison_task.md"
 		)
-
+	
+	@task
+	def website_scrape_task(self) -> Task:
+		return Task(
+			config=self.tasks_config['website_scrape_task'],
+			output_file="steps/website_scrape_task.md"
+		)
+	
 	@task
 	def tavily_comparison_task(self) -> Task:
 		return Task(
 			config=self.tasks_config["tavily_comparison_task"],
+			output_file="steps/tavily_comparison_task.md"
 		)
 
 	@task
 	def reddit_search_comparison_task(self) -> Task:
 		return Task(
 			config=self.tasks_config["reddit_search_comparison_task"],
+			output_file="steps/reddit_search_comparison_task.md"
 		)
 
 	@task
 	def final_comparison_report_task(self) -> Task:
 		return Task(
 			config=self.tasks_config["final_comparison_report_task"],
-			output_file="report.md",
+			output_file="report.md"
         )
 
 	@crew

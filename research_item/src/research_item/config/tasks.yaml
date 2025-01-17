@@ -9,7 +9,20 @@ serper_comparison_task:
   expected_output: >
     An aggregated summary of findings from web searches, including key articles and resources for each item and their comparison, with URLs listed alongside each finding.
   async_execution: true
-  agent: researcher
+  agent: serper_comparison
+
+website_scrape_task:
+  description: >
+    Conduct a thorough comparison between {item1} and {item2} using ScrapeWebsiteTool to gather relevant articles and resources:
+    - First, search for {item1} independently with reference to {goal}.
+    - Then, search for {item2} independently with reference to {goal}.
+    - Finally, search for comparisons between {item1} and {item2} with reference to {goal}.
+    - This report should be a markdown file that is easy to read and understand.
+    - This report should have a title saying "Scrape Website Report"
+  expected_output: >
+    An aggregated summary of findings from web searches, including key articles and resources for each item and their comparison, with URLs listed alongside each finding.
+  async_execution: true
+  agent: website_scrape
 
 tavily_comparison_task:
   description: >
@@ -22,7 +35,7 @@ tavily_comparison_task:
   expected_output: >
     An aggregated summary of findings from content sources, including key data points for each item and their comparison, with URLs listed alongside each finding.
   async_execution: true
-  agent: researcher
+  agent: tavily_comparison
 
 reddit_search_comparison_task:
   description: >
@@ -35,20 +48,22 @@ reddit_search_comparison_task:
   expected_output: >
     An aggregated summary of Reddit discussions, including key insights for each item and their comparison, with URLs listed alongside each finding.
   async_execution: true
-  agent: researcher
+  agent: reddit_search_comparison
 
 final_comparison_report_task:
   description: >
-    Compile all research information from the Serper, Tavily Search, and Reddit Search comparison tasks 
+    Compile all research information from four reports: Serper Search, Scrape Website, Tavily Search and Reddit Search  
     to generate a comprehensive comparison report.
     This comprehensive report should be a markdown file that is easy to read and understand.
     This report should include a summary of the research from each tool, 
     a final recommendation on which item is better based on the specified goal,
-    and links/references to all sources used.
+    and links to all sources used.
   expected_output: >
     A detailed comparison report in markdown format, including sections for each tool's findings, a final recommendation based on the goal, and links/references to all sources for further exploration.
+  async_execution: false
   agent: reporting_analyst
   context_list:
     - serper_comparison_task
+    - website_scrape_task
     - tavily_comparison_task
     - reddit_search_comparison_task

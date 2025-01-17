@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 import sys
 import warnings
-
+import os
+import agentops 
 from crew import ResearchItem
 
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
@@ -16,11 +17,13 @@ def run():
     Run the crew.
     """
     inputs = {
-        "item1": "Apple Watch Ultra 2",
-        "item2": "Garmin Fenix 9",
-        "goal": "Find the best health wearable for 2024 for training for a marathon",
+        "item1": "RTX 3060 12GB",
+        "item2": "RX 6700XT 12GB",
+        "goal": "Find the best GPU for both gaming and machine learning.",
     }
+    agentops.init(api_key=os.getenv("AGENTOPS_API_KEY"), skip_auto_end_session=True)
     ResearchItem().crew().kickoff(inputs=inputs)
+    agentops.end_session('Success')
 
 
 if __name__ == "__main__":
