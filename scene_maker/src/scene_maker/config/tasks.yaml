@@ -1,0 +1,21 @@
+scriptwriting:
+  description: >
+    You are given a story chapter from a book. The story need to be converted to 
+    a story recap book for fun reading and engagement. Read and analyze entire story text. You are responsible for breaking down story into 
+    distinct scenes, each focused on a specific important event in the story. The more events you find the better.
+    Create detailed scenes in a way that they create chronological chain of events.
+    Each scene will be later converted to an image. You must generate the following information in the pydantic schema specified:
+
+    - An apt name for story chapter
+    - A short summary of the story chapter containing the most important events.
+    - A short exposition of the story providing the reader with important background informations.
+    - Detailed narration of each scene in the story, few sentences.
+    - Original text fragment used for narration of each scene
+
+    <story_chapter>    
+      {story_text}
+    </story_chapter>   
+  expected_output: >
+    The output must follow the pydantic schema strictly. You will get a huge reward if do this correctly.
+  agent: scriptwriter
+
