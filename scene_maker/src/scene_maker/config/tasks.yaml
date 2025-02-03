@@ -10,7 +10,6 @@ scriptwriting:
     - A short summary of the story chapter containing the most important events.
     - A short exposition of the story providing the reader with important background informations.
     - Detailed narration of each scene in the story, few sentences.
-    - Original text fragment used for narration of each scene
 
     <story_chapter>    
       {story_text}

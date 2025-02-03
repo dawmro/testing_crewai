@@ -17,8 +17,7 @@ warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 # Replace with inputs you want to test with, it will automatically
 # interpolate any tasks and agents information
 
-STORY_DIR = Path(__file__).parent
-story_path = str(STORY_DIR / "story.txt")
+story_path = "input/story.txt"
 
 def read_file(filename):
     with open(filename, "r", encoding='utf-8') as fp:

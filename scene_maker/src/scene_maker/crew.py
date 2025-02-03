@@ -8,7 +8,6 @@ from typing import List
 class StoryScene(BaseModel):
 	scene_number: int 
 	narration: str
-	original_text_fragment: str
 
 # Define a class for a list of story scenes
 class StoryScenes(BaseModel):
@@ -49,7 +48,7 @@ class SceneMaker():
 		return Task(
 			config=self.tasks_config['scriptwriting'],
 			output_pydantic = StoryScenes,
-			output_file='report_{date}.md'
+			output_file='output/script.md'
 		)
 
 	@crew
