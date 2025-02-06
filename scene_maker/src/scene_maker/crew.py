@@ -48,9 +48,9 @@ class SceneMaker():
 		return Task(
 			config=self.tasks_config['scriptwriting'],
 			output_pydantic = StoryScenes,
-			output_file='output/script.md'
+			output_file='output/{project_name}/script.md'
 		)
-
+	
 	@crew
 	def crew(self) -> Crew:
 		"""Creates the SceneMaker crew"""
