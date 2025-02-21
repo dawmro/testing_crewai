@@ -31,14 +31,14 @@ def run():
     """
     Run the crew.
     """
-    # projects_list = get_projects(PROJECTS_DIR)
-    # inputs_array = create_inputs_array(projects_list, PROJECTS_DIR, SYNOPIS_PATH)
+    projects_list = get_projects(PROJECTS_DIR, RESULTS_DIR)
+    inputs_array = create_inputs_array(projects_list, PROJECTS_DIR, SYNOPIS_PATH)
     
     # agentops.init(api_key=os.getenv("AGENTOPS_API_KEY"), skip_auto_end_session=True)
     # SceneMaker().crew().kickoff_for_each(inputs=inputs_array)
     # agentops.end_session('Success')
 
-    results_list = get_projects(RESULTS_DIR)
+    results_list = get_projects(RESULTS_DIR, 'NonExistingDir')
     create_recap(results_list, RESULTS_DIR)
 
 

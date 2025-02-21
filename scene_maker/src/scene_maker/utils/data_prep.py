@@ -5,7 +5,7 @@ from .logging_utils import showTime
 
 
 
-def get_projects(PROJECTS_DIR):    
+def get_projects(PROJECTS_DIR, RESULTS_DIR):    
     print(f"{showTime()}")
     # Get current working directory
     CWD = os.getcwd()
@@ -19,7 +19,9 @@ def get_projects(PROJECTS_DIR):
     except:
         pass
     for project_name_mixed in project_names_mixed:
-        project_names.append(project_name_mixed)
+        existing_result_path = os.path.join(RESULTS_DIR, project_name_mixed, "script.md")
+        if not os.path.exists(existing_result_path):
+            project_names.append(project_name_mixed)
 
     print(project_names)
     return project_names
@@ -49,6 +51,11 @@ def extract_summary_and_narrations(data):
     return summary, narrations
 
 
+def extract_narrations(data):
+    narrations = [scene['narration'] for scene in data['scenes']]
+    return narrations
+
+
 def create_recap(results_list, RESULTS_DIR):
     for result_name in results_list:
         result_path = os.path.join(RESULTS_DIR, result_name)
@@ -56,9 +63,10 @@ def create_recap(results_list, RESULTS_DIR):
         if os.path.exists(script_path):
             recap_list = []
             data = read_json_file(script_path)
-            summary, narrations = extract_summary_and_narrations(data)
+            # summary, narrations = extract_summary_and_narrations(data)
+            narrations = extract_narrations(data)
             recap_list.append(result_name + ".")
-            recap_list.append(summary)
+            # recap_list.append(summary)
             for i, narration in enumerate(narrations, start=1):
                 recap_list.append(narration)
 
