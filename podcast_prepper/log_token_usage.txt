@@ -1,0 +1,7 @@
+Guest Research Crew
+
+total_tokens=5194 prompt_tokens=1381 cached_prompt_tokens=0 completion_tokens=3813 successful_requests=3
+
+Questions Research Crew
+
+total_tokens=5449 prompt_tokens=4360 cached_prompt_tokens=0 completion_tokens=1089 successful_requests=1
